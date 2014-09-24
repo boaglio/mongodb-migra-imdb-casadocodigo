@@ -188,7 +188,7 @@ public class MySQLDAO {
 
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jmdb?user=root&password=mala24&autoReconnect=true&failOverReadOnly=false&maxReconnects=10");
+			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jmdb?user=root&password=&autoReconnect=true&failOverReadOnly=false&maxReconnects=10");
 		} catch (SQLException ex) {
 
 			System.out.println("SQLException: " + ex.getMessage());
