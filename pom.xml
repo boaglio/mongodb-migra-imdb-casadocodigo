@@ -12,15 +12,21 @@
     <url>http://www.casadocodigo.com.br</url>
 
     <dependencies>
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>2.10.1</version>
-        </dependency>
+
+		<!-- MongoDB Java driver -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+
+		<!-- MySQL driver -->
         <dependency>
         	<groupId>mysql</groupId>
         	<artifactId>mysql-connector-java</artifactId>
-        	<version>5.1.31</version>
+        	<version>5.1.39</version>
         </dependency>
+
     </dependencies>
+
 </project>

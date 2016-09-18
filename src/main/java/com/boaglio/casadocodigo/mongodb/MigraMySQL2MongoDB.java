@@ -1,37 +1,33 @@
 package com.boaglio.casadocodigo.mongodb;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.Document;
+
 import com.boaglio.casadocodigo.mongodb.dto.Ator;
 import com.boaglio.casadocodigo.mongodb.dto.Filme;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 public class MigraMySQL2MongoDB {
 
 	static MySQLDAO mysqlDAO = new MySQLDAO();
 	static long totalDeFilmes = 0;
 	static MongoClient mongoClient;
-	static DB blogDatabase;
-	static DBCollection filmesCollection;
+	static MongoDatabase database;
+	static MongoCollection<Document> filmesCollection;
 
 	public static void main(String[] args) {
 
 		long inicio = System.currentTimeMillis();
 		System.out.println("========= INICIO: " + new Date());
-		try {
-			mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost"));
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		blogDatabase = mongoClient.getDB("test");
-		filmesCollection = blogDatabase.getCollection("filmes");
+		mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost"));
+		database = mongoClient.getDatabase("test");
+		filmesCollection = database.getCollection("filmes");
 		filmesCollection.drop();
 
 		System.out.println("Buscando filmes...");
@@ -62,29 +58,29 @@ public class MigraMySQL2MongoDB {
 
 	public static void adicionarFilme(Long movieid,String title,String year,Double rank,Long votes) {
 
-		BasicDBObject document = new BasicDBObject();
+		Document documento = new Document();
 
-		document.put("_id",movieid);
-		document.put("titulo",title);
-		document.put("ano",year);
-		document.put("nota",rank);
-		document.put("votos",votes);
-		document.put("categorias",mysqlDAO.getCategorias(Long.valueOf(movieid)));
-		document.put("diretores",mysqlDAO.getDiretores(Long.valueOf(movieid)));
+		documento.put("_id",movieid);
+		documento.put("titulo",title);
+		documento.put("ano",year);
+		documento.put("nota",rank);
+		documento.put("votos",votes);
+		documento.put("categorias",mysqlDAO.getCategorias(Long.valueOf(movieid)));
+		documento.put("diretores",mysqlDAO.getDiretores(Long.valueOf(movieid)));
 
-		List<BasicDBObject> atoresMongoDB = new ArrayList<BasicDBObject>();
+		List<Document> atoresMongoDB = new ArrayList<Document>();
 		List<Ator> atoresMySQL = mysqlDAO.getAtores(Long.valueOf(movieid));
 
 		for (Ator ator : atoresMySQL) {
-			BasicDBObject atorMongoDB = new BasicDBObject();
+			Document atorMongoDB = new Document();
 			atorMongoDB.put("nome",ator.getNome());
 			atorMongoDB.put("sexo",ator.getSexo());
 			atoresMongoDB.add(atorMongoDB);
 		}
 
-		document.put("atores",atoresMongoDB);
+		documento.put("atores",atoresMongoDB);
 
-		filmesCollection.insert(document);
+		filmesCollection.insertOne(documento);
 
 	}
 
