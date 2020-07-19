@@ -27,7 +27,7 @@ public class MySQLDAO {
 			rs = st.executeQuery(query);
 			while (rs.next()) {
 				Filme filme = new Filme();
-				filme.setId(rs.getLong("movieid"));
+				filme.setId(rs.getLong("movieid")); 
 				filme.setTitulo(rs.getString("title"));
 				filme.setAno(rs.getString("year"));
 				filme.setNota(rs.getDouble("rank"));
@@ -94,7 +94,8 @@ public class MySQLDAO {
 				}
 			} catch (Exception e) {}
 		}
-		System.out.println("categorias: " + categorias);
+		if (!categorias.isEmpty())
+		 System.out.println("[MySQL] categorias: " + categorias);
 		return categorias;
 
 	}
@@ -135,7 +136,8 @@ public class MySQLDAO {
 				}
 			} catch (Exception e) {}
 		}
-		System.out.println("diretores: " + diretores);
+		if (!diretores.isEmpty())
+		 System.out.println("[MySQL] diretores: " + diretores);
 		return diretores;
 
 	}
@@ -179,7 +181,8 @@ public class MySQLDAO {
 				}
 			} catch (Exception e) {}
 		}
-		System.out.println("atores: " + atores);
+		if (!atores.isEmpty())
+		 System.out.println("[MySQL] atores: " + atores);
 		return atores;
 
 	}
@@ -188,7 +191,7 @@ public class MySQLDAO {
 
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jmdb?user=root&password=temaki111&autoReconnect=true&failOverReadOnly=false&maxReconnects=10");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jmdb?user=root&autoReconnect=true&failOverReadOnly=false&maxReconnects=10");
 		} catch (SQLException ex) {
 
 			System.out.println("SQLException: " + ex.getMessage());

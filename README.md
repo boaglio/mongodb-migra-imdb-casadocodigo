@@ -239,3 +239,12 @@ db.filmes.find({"titulo": "TRON (1982)"}).pretty();
         ]
 }
 ```
+
+Carga:
+
+
+```
+ mvn clean install 
+ java -Xmx2g -jar target/migra-MySQL-MongoDB.jar
+  
+```
